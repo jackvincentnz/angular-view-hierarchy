@@ -7,10 +7,13 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  ComponentFactoryResolver,
+  Injector,
 } from "@angular/core";
 import { FlowerService } from "../flower.service";
 import { AnimalService } from "../animal.service";
 import { Parent } from "../parent";
+import { InspectorComponent } from "../inspector/inspector.component";
 
 interface Context {
   $implicit: { value: string };
@@ -39,7 +42,9 @@ export class ChildComponent implements AfterViewInit {
   constructor(
     public flower: FlowerService,
     public animal: AnimalService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private resolver: ComponentFactoryResolver,
+    private injector: Injector
   ) {
     console.log("ChildComponent Initialized.");
   }
@@ -54,6 +59,13 @@ export class ChildComponent implements AfterViewInit {
       // can also do:
       // this.viewContainer.createEmbeddedView(template, this.context);
     });
+
+    const inspectorComponentFactory = this.resolver.resolveComponentFactory(
+      InspectorComponent
+    );
+    const inspectorComponent = inspectorComponentFactory.create(this.injector);
+    inspectorComponent.instance.value = "I was created in the child component!";
+    this.viewContainer.insert(inspectorComponent.hostView);
 
     // Have to force change detection since we manipulated the structure of the view
     // and made it dirty after the check had already completed.
