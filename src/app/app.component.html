@@ -4,38 +4,16 @@
 
 <hr />
 
-<h2>From ChildComponent:</h2>
-<app-child [templates]="[contentChildTemplate, appComponentTemplate]">
-  <div class="inspector-container">
-    <h4>Inside ChildComponent content</h4>
-    <p>
-      The following is coming from the ChildComponent content so it has access
-      to the ChildComponent parent, providers but not view providers.
-    </p>
-    <app-inspector></app-inspector>
-  </div>
-
-  <ng-template #contentChildTemplate>
+<app-wrapper-component [parentTemplate]="appComponentTemplate">
+  <ng-template #appComponentTemplate let-context>
     <div class="inspector-container">
-      <h4>Inside ChildComponent content</h4>
+      <h4>Inside AppComponent view</h4>
       <p>
-        The following is declared within the ChildComponent content but created
-        within the ChildComponent view so it it has access to the child
-        component parent, providers and view providers.
+        The following is declared within the AppComponent view so it doesn't see
+        anything from the ChildComponent and only sees the AppComponent parent
+        and root services.
       </p>
-      <app-inspector></app-inspector>
+      <app-inspector [value]="context?.value"></app-inspector>
     </div>
   </ng-template>
-</app-child>
-
-<ng-template #appComponentTemplate>
-  <div class="inspector-container">
-    <h4>Inside AppComponent view</h4>
-    <p>
-      The following is declared within the AppComponent view so it doesn't see
-      anything from the ChildComponent and only sees the AppComponent parent and
-      root services.
-    </p>
-    <app-inspector></app-inspector>
-  </div>
-</ng-template>
+</app-wrapper-component>

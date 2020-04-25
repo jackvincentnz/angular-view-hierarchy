@@ -3,7 +3,7 @@
 
 <h3>View Child</h3>
 <div class="inspector-container">
-  <h4>Inside the ChildComponent view</h4>
+  <h4>Inside ChildComponent view</h4>
   <p>
     The following is inside the ChildComponent view so it has access to the
     ChildComponent parent, providers and view providers.
@@ -16,5 +16,8 @@
 
 <h3>Template projection</h3>
 <ng-container *ngFor="let template of templates">
-  <ng-container *ngTemplateOutlet="template"></ng-container>
+  <ng-container *ngTemplateOutlet="template; context: context"></ng-container>
 </ng-container>
+
+<h3>View Container</h3>
+<ng-container #viewContainer></ng-container>

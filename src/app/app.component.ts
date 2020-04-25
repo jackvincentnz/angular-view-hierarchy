@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FlowerService } from "./flower.service";
 import { AnimalService } from "./animal.service";
 import { Parent } from "./parent";
@@ -8,6 +8,7 @@ import { Parent } from "./parent";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
   providers: [{ provide: Parent, useValue: { name: "AppComponent" } }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   constructor(public flower: FlowerService, public animal: AnimalService) {

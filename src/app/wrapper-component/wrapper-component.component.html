@@ -1,0 +1,23 @@
+<h2>From ChildComponent:</h2>
+<app-child [templates]="[contentChildTemplate, parentTemplate]">
+  <div class="inspector-container">
+    <h4>Inside ChildComponent content</h4>
+    <p>
+      The following is coming from the ChildComponent content so it has access
+      to the ChildComponent parent, providers but not view providers.
+    </p>
+    <app-inspector></app-inspector>
+  </div>
+
+  <ng-template #contentChildTemplate>
+    <div class="inspector-container">
+      <h4>Inside ChildComponent content</h4>
+      <p>
+        The following is declared within the ChildComponent content but created
+        within the ChildComponent view so it it has access to the child
+        component parent, providers and view providers.
+      </p>
+      <app-inspector></app-inspector>
+    </div>
+  </ng-template>
+</app-child>
