@@ -10,24 +10,28 @@ import {
   ComponentFactoryResolver,
   Injector,
 } from "@angular/core";
-import { FlowerService } from "../flower.service";
-import { AnimalService } from "../animal.service";
-import { Parent } from "../parent";
+import { Provided, ViewProvided } from "../injection-tokens";
 import { InspectorComponent } from "../inspector/inspector.component";
 
 interface Context {
   $implicit: { value: string };
 }
 
+class ChildProvided implements Provided {
+  providedBy = "ChildComponent";
+  emoji = "🌻";
+}
+
+class ChildViewProvided extends ChildProvided {
+  emoji = "🐶";
+}
+
 @Component({
   selector: "app-child",
   templateUrl: "./child.component.html",
   styleUrls: ["./child.component.css"],
-  providers: [
-    { provide: FlowerService, useValue: { emoji: "🌻" } },
-    { provide: Parent, useValue: { name: "ChildComponent" } },
-  ],
-  viewProviders: [{ provide: AnimalService, useValue: { emoji: "🐶" } }],
+  providers: [{ provide: Provided, useClass: ChildProvided }],
+  viewProviders: [{ provide: ViewProvided, useClass: ChildViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChildComponent implements AfterViewInit {
@@ -40,8 +44,8 @@ export class ChildComponent implements AfterViewInit {
   viewContainer: ViewContainerRef;
 
   constructor(
-    public flower: FlowerService,
-    public animal: AnimalService,
+    private provided: Provided,
+    private viewProvided: ViewProvided,
     private cdr: ChangeDetectorRef,
     private resolver: ComponentFactoryResolver,
     private injector: Injector
@@ -64,7 +68,12 @@ export class ChildComponent implements AfterViewInit {
       InspectorComponent
     );
     const inspectorComponent = inspectorComponentFactory.create(this.injector);
-    inspectorComponent.instance.value = "I was created in the child component!";
+    const context = inspectorComponent.instance;
+    context.declared = "Created And Inserted By ChildComponent";
+    context.value = `
+      This inspector was created in the child component
+      so sees everything it provides!
+    `;
     this.viewContainer.insert(inspectorComponent.hostView);
 
     // Have to force change detection since we manipulated the structure of the view

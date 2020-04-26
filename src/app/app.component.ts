@@ -1,17 +1,20 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { FlowerService } from "./flower.service";
-import { AnimalService } from "./animal.service";
-import { Parent } from "./parent";
+import { Ancestor, Provided, ViewProvided } from "./injection-tokens";
+
+class AppViewProvided implements ViewProvided {
+  providedBy = "AppComponent";
+  emoji = "🐳";
+}
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
-  providers: [{ provide: Parent, useValue: { name: "AppComponent" } }],
+  viewProviders: [{ provide: ViewProvided, useClass: AppViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  constructor(public flower: FlowerService, public animal: AnimalService) {
+  constructor(public provided: Provided, public viewProvided: ViewProvided) {
     console.log("AppComponent Initialized.");
   }
 }

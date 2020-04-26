@@ -4,9 +4,7 @@ import {
   Input,
   ChangeDetectionStrategy,
 } from "@angular/core";
-import { FlowerService } from "../flower.service";
-import { AnimalService } from "../animal.service";
-import { Parent } from "../parent";
+import { Provided, ViewProvided } from "../injection-tokens";
 
 @Component({
   selector: "app-inspector",
@@ -16,13 +14,12 @@ import { Parent } from "../parent";
 })
 export class InspectorComponent {
   @Input()
+  declared: string;
+
+  @Input()
   value: string;
 
-  constructor(
-    public flower: FlowerService,
-    public animal: AnimalService,
-    public parent?: Parent
-  ) {
+  constructor(public provided: Provided, public viewProvided: ViewProvided) {
     console.log("InspectorComponent Initialized.");
   }
 }

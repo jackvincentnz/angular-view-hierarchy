@@ -67,9 +67,3 @@ nav a.active {
 * {
   font-family: Arial, Helvetica, sans-serif;
 }
-
-div.inspector-container {
-  border: 1px solid lightgreen;
-  margin: 10px 0 10px 0;
-  padding: 1rem;
-}
