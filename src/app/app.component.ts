@@ -1,5 +1,10 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { Ancestor, Provided, ViewProvided } from "./injection-tokens";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ComponentFactoryResolver,
+} from "@angular/core";
+import { Provided, ViewProvided } from "./injection-tokens";
+import { InspectorComponent } from "./inspector/inspector.component";
 
 class AppViewProvided implements ViewProvided {
   providedBy = "AppComponent";
@@ -13,8 +18,14 @@ class AppViewProvided implements ViewProvided {
   viewProviders: [{ provide: ViewProvided, useClass: AppViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  constructor(public provided: Provided, public viewProvided: ViewProvided) {
+export class AppComponent<T> {
+  constructor(
+    public provided: Provided,
+    public viewProvided: ViewProvided,
+    private resolver: ComponentFactoryResolver
+  ) {
     console.log("AppComponent Initialized.");
   }
+
+  factory = this.resolver.resolveComponentFactory(InspectorComponent);
 }

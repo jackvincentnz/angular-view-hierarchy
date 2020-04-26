@@ -9,9 +9,12 @@ import {
   ChangeDetectorRef,
   ComponentFactoryResolver,
   Injector,
+  ComponentFactory,
 } from "@angular/core";
 import { Provided, ViewProvided } from "../injection-tokens";
 import { InspectorComponent } from "../inspector/inspector.component";
+import { EmbeddedDefDirective } from "../embedded/embedded-def.directive";
+import { EmbeddedDirective } from "../embedded/embedded.directive";
 
 interface Context {
   $implicit: { value: string };
@@ -38,6 +41,12 @@ export class ChildComponent implements AfterViewInit {
   @Input()
   templates: TemplateRef<Context>[];
 
+  @Input()
+  embeddedTemplate: TemplateRef<Context>;
+
+  @Input()
+  factory: ComponentFactory<InspectorComponent>;
+
   context = { $implicit: { value: "context-value" } };
 
   @ViewChild("viewContainer", { read: ViewContainerRef })
@@ -59,11 +68,9 @@ export class ChildComponent implements AfterViewInit {
       const view = template.createEmbeddedView(this.context);
       // add view to container
       this.viewContainer.insert(view);
-
-      // can also do:
-      // this.viewContainer.createEmbeddedView(template, this.context);
     });
 
+    // Add component directly
     const inspectorComponentFactory = this.resolver.resolveComponentFactory(
       InspectorComponent
     );
@@ -75,6 +82,19 @@ export class ChildComponent implements AfterViewInit {
       so sees everything it provides!
     `;
     this.viewContainer.insert(inspectorComponent.hostView);
+
+    // Add template from app-embedded
+    this.viewContainer.createEmbeddedView(this.embeddedTemplate, this.context);
+
+    // Add create and add component from component factory input
+    const componentFromFactory = this.factory.create(this.injector);
+    componentFromFactory.instance.declared =
+      "Factory extending InspectorComponent Passed From App Component";
+    componentFromFactory.instance.value = `
+      This inspector was created in the child component
+      so sees everything it provides!
+    `;
+    this.viewContainer.insert(componentFromFactory.hostView);
 
     // Have to force change detection since we manipulated the structure of the view
     // and made it dirty after the check had already completed.

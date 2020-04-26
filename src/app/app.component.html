@@ -10,7 +10,10 @@
 
 <hr />
 
-<app-wrapper-component [parentTemplate]="appComponentTemplate">
+<app-wrapper-component
+  [parentTemplate]="appComponentTemplate"
+  [factory]="factory"
+>
   <ng-template #appComponentTemplate let-context>
     <app-inspector
       declared="Template Inside WrapperComponent Content"
@@ -21,4 +24,14 @@
       the AppComponent parent and root services.
     </app-inspector>
   </ng-template>
+
+  <app-embedded *appEmbeddedDef="let context">
+    <app-inspector
+      declared="Template Inside EmbeddedComponent Content"
+      [value]="context.value"
+    >
+      This inspector is declared within the EmbeddedComponent content, within
+      the WrapperComponent content.
+    </app-inspector>
+  </app-embedded>
 </app-wrapper-component>

@@ -1,4 +1,8 @@
-<app-child [templates]="[contentChildTemplate, parentTemplate]">
+<app-child
+  [templates]="[contentChildTemplate, parentTemplate]"
+  [embeddedTemplate]="embeddedTemplate"
+  [factory]="factory"
+>
   <app-inspector declared="Inside ChildComponent Content">
     This inspector is declared within the ChildComponent content so it has
     access to the ChildComponent parent, providers but not view providers.

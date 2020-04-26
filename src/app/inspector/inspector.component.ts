@@ -1,9 +1,4 @@
-import {
-  Component,
-  Optional,
-  Input,
-  ChangeDetectionStrategy,
-} from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import { Provided, ViewProvided } from "../injection-tokens";
 
 @Component({
@@ -19,7 +14,5 @@ export class InspectorComponent {
   @Input()
   value: string;
 
-  constructor(public provided: Provided, public viewProvided: ViewProvided) {
-    console.log("InspectorComponent Initialized.");
-  }
+  constructor(public provided: Provided, public viewProvided: ViewProvided) {}
 }
