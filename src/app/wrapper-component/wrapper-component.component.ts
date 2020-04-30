@@ -14,7 +14,6 @@ import { EmbeddedDefDirective } from "../embedded/embedded-def.directive";
 @Component({
   selector: "app-wrapper-component",
   templateUrl: "./wrapper-component.component.html",
-  styleUrls: ["./wrapper-component.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WrapperComponentComponent<T> implements AfterContentChecked {
@@ -24,13 +23,15 @@ export class WrapperComponentComponent<T> implements AfterContentChecked {
   @Input()
   factory: ComponentFactory<any>;
 
-  @ContentChild(EmbeddedDefDirective) embeddedDef!: EmbeddedDefDirective<T>;
+  @ContentChild(EmbeddedDefDirective)
+  embeddedDef?: EmbeddedDefDirective<T>;
 
-  embeddedTemplate: TemplateRef<T> | null;
+  embeddedTemplate?: TemplateRef<T>;
 
   constructor() {}
 
+  // Have to wait until the content is available before the query will have the template
   ngAfterContentChecked() {
-    this.embeddedTemplate = this.embeddedDef.template;
+    this.embeddedTemplate = this.embeddedDef?.template;
   }
 }

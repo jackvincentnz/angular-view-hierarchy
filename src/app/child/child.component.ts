@@ -10,11 +10,10 @@ import {
   ComponentFactoryResolver,
   Injector,
   ComponentFactory,
+  Optional,
 } from "@angular/core";
 import { Provided, ViewProvided } from "../injection-tokens";
 import { InspectorComponent } from "../inspector/inspector.component";
-import { EmbeddedDefDirective } from "../embedded/embedded-def.directive";
-import { EmbeddedDirective } from "../embedded/embedded.directive";
 
 interface Context {
   $implicit: { value: string };
@@ -32,9 +31,8 @@ class ChildViewProvided extends ChildProvided {
 @Component({
   selector: "app-child",
   templateUrl: "./child.component.html",
-  styleUrls: ["./child.component.css"],
-  providers: [{ provide: Provided, useClass: ChildProvided }],
-  viewProviders: [{ provide: ViewProvided, useClass: ChildViewProvided }],
+  //providers: [{ provide: Provided, useClass: ChildProvided }],
+  //viewProviders: [{ provide: ViewProvided, useClass: ChildViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChildComponent implements AfterViewInit {
@@ -53,50 +51,51 @@ export class ChildComponent implements AfterViewInit {
   viewContainer: ViewContainerRef;
 
   constructor(
-    private provided: Provided,
-    private viewProvided: ViewProvided,
     private cdr: ChangeDetectorRef,
     private resolver: ComponentFactoryResolver,
-    private injector: Injector
-  ) {
-    console.log("ChildComponent Initialized.");
-  }
+    private injector: Injector,
+    @Optional()
+    private provided?: Provided,
+    @Optional()
+    private viewProvided?: ViewProvided
+  ) {}
 
   ngAfterViewInit(): void {
+    // Converting TemplateRefs to ViewRefs and embedding using a ViewContainerRef
     this.templates.forEach((template) => {
-      // create new view from template and context
+      // Create new view instance for template and context
       const view = template.createEmbeddedView(this.context);
-      // add view to container
+      // Add view to end of container
       this.viewContainer.insert(view);
+
+      // Can also use shorthand from `ViewContainerRef`
+      // this.viewContainer.createEmbeddedView(template, this.context);
     });
 
-    // Add component directly
-    const inspectorComponentFactory = this.resolver.resolveComponentFactory(
-      InspectorComponent
-    );
-    const inspectorComponent = inspectorComponentFactory.create(this.injector);
-    const context = inspectorComponent.instance;
-    context.declared = "Created And Inserted By ChildComponent";
-    context.value = `
+    // Instantiate ComponentRef and insert view using ViewContainerRef
+    const factory = this.resolver.resolveComponentFactory(InspectorComponent);
+    const component = factory.create(this.injector);
+    component.instance.declared = "Created And Inserted By ChildComponent";
+    component.instance.value = `
       This inspector was created in the child component
       so sees everything it provides!
     `;
-    this.viewContainer.insert(inspectorComponent.hostView);
+    // #UNCOMMENT this.viewContainer.insert(component.hostView);
 
-    // Add template from app-embedded
-    this.viewContainer.createEmbeddedView(this.embeddedTemplate, this.context);
+    // Can also use shorthand from `ViewContainerRef`
+    // this.viewContainer.createComponent(factory, undefined, this.injector);
 
-    // Add create and add component from component factory input
-    const componentFromFactory = this.factory.create(this.injector);
-    componentFromFactory.instance.declared =
+    // Instantiate ComponentRef from @Input() factory and insert view using ViewContainerRef
+    const inputComponent = this.factory.create(this.injector);
+    inputComponent.instance.declared =
       "Factory extending InspectorComponent Passed From App Component";
-    componentFromFactory.instance.value = `
+    inputComponent.instance.value = `
       This inspector was created in the child component
       so sees everything it provides!
     `;
-    this.viewContainer.insert(componentFromFactory.hostView);
+    // #UNCOMMENT this.viewContainer.insert(inputComponent.hostView);
 
-    // Have to force change detection since we manipulated the structure of the view
+    // Have to force change detection again since we manipulated the structure of the view
     // and made it dirty after the check had already completed.
     this.cdr.detectChanges();
   }

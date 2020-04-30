@@ -1,11 +1,11 @@
 <h2>From AppComponent:</h2>
 <p>
-  {{ provided.emoji }} provided by
-  <strong>{{ provided.providedBy }}</strong>
+  {{ provided?.emoji || "nothing" }} provided by
+  <strong>{{ provided?.providedBy || "anything" }}</strong>
 </p>
 <p>
-  {{ viewProvided.emoji }} provided by
-  <strong>{{ viewProvided.providedBy }}</strong>
+  {{ viewProvided?.emoji || "nothing" }} provided by
+  <strong>{{ viewProvided?.providedBy || "anything" }}</strong>
 </p>
 
 <hr />
@@ -15,23 +15,10 @@
   [factory]="factory"
 >
   <ng-template #appComponentTemplate let-context>
-    <app-inspector
-      declared="Template Inside WrapperComponent Content"
-      [value]="context?.value"
-    >
-      This inspector is declared within the WrapperComponent content as a
-      template so it doesn't see anything from the ChildComponent and only sees
-      the AppComponent parent and root services.
-    </app-inspector>
+    <!-- Inspect TemplateRef passed to WrapperComponent as @Input() -->
   </ng-template>
 
   <app-embedded *appEmbeddedDef="let context">
-    <app-inspector
-      declared="Template Inside EmbeddedComponent Content"
-      [value]="context.value"
-    >
-      This inspector is declared within the EmbeddedComponent content, within
-      the WrapperComponent content.
-    </app-inspector>
+    <!-- Inspect TemplateRef injected into EmbeddedDirective -->
   </app-embedded>
 </app-wrapper-component>

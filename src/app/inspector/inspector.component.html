@@ -3,11 +3,11 @@
   <ng-content></ng-content>
 </p>
 <p>
-  {{ provided.emoji }} provided by
-  <strong>{{ provided.providedBy }}</strong>
+  {{ provided?.emoji || "nothing" }} provided by
+  <strong>{{ provided?.providedBy || "anything" }}</strong>
 </p>
 <p>
-  {{ viewProvided.emoji }} provided by
-  <strong>{{ viewProvided.providedBy }}</strong>
+  {{ viewProvided?.emoji || "nothing" }} provided by
+  <strong>{{ viewProvided?.providedBy || "anything" }}</strong>
 </p>
 <p>Value: {{ value || "not defined" }}</p>

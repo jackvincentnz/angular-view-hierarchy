@@ -1,23 +1,20 @@
 <h2>From ChildComponent:</h2>
 <p>
-  {{ provided.emoji }} provided by
-  <strong>{{ provided.providedBy }}</strong>
+  {{ provided?.emoji || "nothing" }} provided by
+  <strong>{{ provided?.providedBy || "anything" }}</strong>
 </p>
 <p>
-  {{ viewProvided.emoji }} provided by
-  <strong>{{ viewProvided.providedBy }}</strong>
+  {{ viewProvided?.emoji || "nothing" }} provided by
+  <strong>{{ viewProvided?.providedBy || "anything" }}</strong>
 </p>
 
 <h3>View Child</h3>
-<app-inspector declared="Inside ChildComponent Host Template">
-  This inspector is declared in the ChildComponent host template so it has
-  access to the ChildComponent parent, providers and view providers.
-</app-inspector>
+<!-- Inspect as component ViewChild of ChildComponent -->
 
 <h3>Content projection</h3>
 <ng-content></ng-content>
 
-<h3>Template projection</h3>
+<h3>Embedding Templates</h3>
 <ng-container *ngFor="let template of templates">
   <ng-container *ngTemplateOutlet="template; context: context"></ng-container>
 </ng-container>

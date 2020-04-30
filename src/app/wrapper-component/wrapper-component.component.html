@@ -1,18 +1,10 @@
 <app-child
-  [templates]="[contentChildTemplate, parentTemplate]"
-  [embeddedTemplate]="embeddedTemplate"
+  [templates]="[contentChildTemplate, parentTemplate, embeddedTemplate]"
   [factory]="factory"
 >
-  <app-inspector declared="Inside ChildComponent Content">
-    This inspector is declared within the ChildComponent content so it has
-    access to the ChildComponent parent, providers but not view providers.
-  </app-inspector>
+  <!-- Inspect as component ContentChild of ChildComponent -->
 
   <ng-template #contentChildTemplate>
-    <app-inspector declared="Template Inside ChildComponent Content">
-      This inspector is declared within the ChildComponent content as a template
-      so it it has access to the ChildComponent parent, providers and view
-      providers.
-    </app-inspector>
+    <!-- Inspect TemplateRef ContentChild of ChildComponent -->
   </ng-template>
 </app-child>

@@ -2,6 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   ComponentFactoryResolver,
+  Optional,
 } from "@angular/core";
 import { Provided, ViewProvided } from "./injection-tokens";
 import { InspectorComponent } from "./inspector/inspector.component";
@@ -14,18 +15,17 @@ class AppViewProvided implements ViewProvided {
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
-  viewProviders: [{ provide: ViewProvided, useClass: AppViewProvided }],
+  //viewProviders: [{ provide: ViewProvided, useClass: AppViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent<T> {
   constructor(
-    public provided: Provided,
-    public viewProvided: ViewProvided,
-    private resolver: ComponentFactoryResolver
-  ) {
-    console.log("AppComponent Initialized.");
-  }
+    private resolver: ComponentFactoryResolver,
+    @Optional()
+    public provided?: Provided,
+    @Optional()
+    public viewProvided?: ViewProvided
+  ) {}
 
   factory = this.resolver.resolveComponentFactory(InspectorComponent);
 }
