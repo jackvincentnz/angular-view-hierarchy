@@ -6,7 +6,7 @@ Examples of DI in action in an Angular view hierarchy
 
 ```
 $ yarn
-$ ng serve
+$ yarn start
 ```
 
 ## Overview
