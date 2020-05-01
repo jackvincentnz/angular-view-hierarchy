@@ -1,0 +1,10 @@
+<app-child
+  [templates]="[contentChildTemplate, parentTemplate, embeddedTemplate]"
+  [factory]="factory"
+>
+  <!-- Inspect as component ContentChild of ChildComponent -->
+
+  <ng-template #contentChildTemplate>
+    <!-- Inspect TemplateRef ContentChild of ChildComponent -->
+  </ng-template>
+</app-child>

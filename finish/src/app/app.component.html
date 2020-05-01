@@ -1,0 +1,24 @@
+<h2>From AppComponent:</h2>
+<p>
+  {{ provided?.emoji || "nothing" }} provided by
+  <strong>{{ provided?.providedBy || "anything" }}</strong>
+</p>
+<p>
+  {{ viewProvided?.emoji || "nothing" }} provided by
+  <strong>{{ viewProvided?.providedBy || "anything" }}</strong>
+</p>
+
+<hr />
+
+<app-wrapper-component
+  [parentTemplate]="appComponentTemplate"
+  [factory]="factory"
+>
+  <ng-template #appComponentTemplate let-context>
+    <!-- Inspect TemplateRef passed to WrapperComponent as @Input() -->
+  </ng-template>
+
+  <app-embedded *appEmbeddedDef="let context">
+    <!-- Inspect TemplateRef injected into EmbeddedDirective -->
+  </app-embedded>
+</app-wrapper-component>

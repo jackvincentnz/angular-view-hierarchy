@@ -1,0 +1,23 @@
+<h2>From ChildComponent:</h2>
+<p>
+  {{ provided?.emoji || "nothing" }} provided by
+  <strong>{{ provided?.providedBy || "anything" }}</strong>
+</p>
+<p>
+  {{ viewProvided?.emoji || "nothing" }} provided by
+  <strong>{{ viewProvided?.providedBy || "anything" }}</strong>
+</p>
+
+<h3>View Child</h3>
+<!-- Inspect as component ViewChild of ChildComponent -->
+
+<h3>Content projection</h3>
+<ng-content></ng-content>
+
+<h3>Embedding Templates</h3>
+<ng-container *ngFor="let template of templates">
+  <ng-container *ngTemplateOutlet="template; context: context"></ng-container>
+</ng-container>
+
+<h3>View Container Manipulation</h3>
+<ng-container #viewContainer></ng-container>

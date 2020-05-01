@@ -1,0 +1,13 @@
+<h4>{{ declared }}</h4>
+<p>
+  <ng-content></ng-content>
+</p>
+<p>
+  {{ provided?.emoji || "nothing" }} provided by
+  <strong>{{ provided?.providedBy || "anything" }}</strong>
+</p>
+<p>
+  {{ viewProvided?.emoji || "nothing" }} provided by
+  <strong>{{ viewProvided?.providedBy || "anything" }}</strong>
+</p>
+<p>Value: {{ value || "not defined" }}</p>
