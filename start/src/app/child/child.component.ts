@@ -58,7 +58,7 @@ export class ChildComponent implements AfterViewInit {
     private provided?: Provided,
     @Optional()
     private viewProvided?: ViewProvided
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // Converting TemplateRefs to ViewRefs and embedding using a ViewContainerRef
@@ -66,7 +66,7 @@ export class ChildComponent implements AfterViewInit {
       // Create new view instance for template and context
       const view = template.createEmbeddedView(this.context);
       // Add view to end of container
-      this.viewContainer.insert(view);
+      // #UNCOMMENT this.viewContainer.insert(view);
 
       // Can also use shorthand from `ViewContainerRef`
       // this.viewContainer.createEmbeddedView(template, this.context);
