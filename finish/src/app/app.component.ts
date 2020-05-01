@@ -15,7 +15,7 @@ class AppViewProvided implements ViewProvided {
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  //viewProviders: [{ provide: ViewProvided, useClass: AppViewProvided }],
+  viewProviders: [{ provide: ViewProvided, useClass: AppViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent<T> {
@@ -25,7 +25,7 @@ export class AppComponent<T> {
     public provided?: Provided,
     @Optional()
     public viewProvided?: ViewProvided
-  ) {}
+  ) { }
 
   factory = this.resolver.resolveComponentFactory(InspectorComponent);
 }

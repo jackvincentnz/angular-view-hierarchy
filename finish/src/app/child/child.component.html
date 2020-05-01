@@ -10,6 +10,10 @@
 
 <h3>View Child</h3>
 <!-- Inspect as component ViewChild of ChildComponent -->
+<app-inspector declared="Inside ChildComponent Host Template">
+  This inspector is declared in the ChildComponent host template so it has
+  access to the ChildComponent parent, providers and view providers.
+</app-inspector>
 
 <h3>Content projection</h3>
 <ng-content></ng-content>

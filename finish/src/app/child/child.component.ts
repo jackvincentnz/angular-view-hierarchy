@@ -31,8 +31,8 @@ class ChildViewProvided extends ChildProvided {
 @Component({
   selector: "app-child",
   templateUrl: "./child.component.html",
-  //providers: [{ provide: Provided, useClass: ChildProvided }],
-  //viewProviders: [{ provide: ViewProvided, useClass: ChildViewProvided }],
+  providers: [{ provide: Provided, useClass: ChildProvided }],
+  viewProviders: [{ provide: ViewProvided, useClass: ChildViewProvided }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChildComponent implements AfterViewInit {
@@ -58,7 +58,7 @@ export class ChildComponent implements AfterViewInit {
     private provided?: Provided,
     @Optional()
     private viewProvided?: ViewProvided
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // Converting TemplateRefs to ViewRefs and embedding using a ViewContainerRef
@@ -80,7 +80,7 @@ export class ChildComponent implements AfterViewInit {
       This inspector was created in the child component
       so sees everything it provides!
     `;
-    // #UNCOMMENT this.viewContainer.insert(component.hostView);
+    this.viewContainer.insert(component.hostView);
 
     // Can also use shorthand from `ViewContainerRef`
     // this.viewContainer.createComponent(factory, undefined, this.injector);
@@ -93,7 +93,7 @@ export class ChildComponent implements AfterViewInit {
       This inspector was created in the child component
       so sees everything it provides!
     `;
-    // #UNCOMMENT this.viewContainer.insert(inputComponent.hostView);
+    this.viewContainer.insert(inputComponent.hostView);
 
     // Have to force change detection again since we manipulated the structure of the view
     // and made it dirty after the check had already completed.

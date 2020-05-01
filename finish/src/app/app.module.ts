@@ -29,6 +29,6 @@ export class RootService implements Provided {
     EmbeddedDefDirective,
   ],
   bootstrap: [AppComponent],
-  //providers: [{ provide: Provided, useExisting: RootService }],
+  providers: [{ provide: Provided, useExisting: RootService }],
 })
-export class AppModule {}
+export class AppModule { }
